@@ -64,9 +64,14 @@ export const UserProvider = ({ children } : Props) => {
               localStorage.setItem("user", JSON.stringify(userObj));
               setToken(res?.data.token);
               setUser(userObj!);
-              toast.success("Login Successful!");
+              const currentUser = decodeToken(res?.data.token) as userJwt;
+              if(currentUser.isBanned){
+                toast.warning("Your account has been locked. Please contact support team");
+              } else {
+                toast.success("Login Successful!");
            
-              navigate("/");     
+                navigate("/"); 
+              }     
              
             }
             else{
