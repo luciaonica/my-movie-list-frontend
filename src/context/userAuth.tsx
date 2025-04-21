@@ -66,7 +66,11 @@ export const UserProvider = ({ children } : Props) => {
               setUser(userObj!);
               const currentUser = decodeToken(res?.data.token) as userJwt;
               if(currentUser.isBanned){
-                toast.warning("Your account has been locked. Please contact support team");
+                toast.warning("Your account has been locked.");
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                setUser(null);
+                setToken("");
               } else {
                 toast.success("Login Successful!");
            
